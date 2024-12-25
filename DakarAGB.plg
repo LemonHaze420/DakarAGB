@@ -1,0 +1,200 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: DakarAGB - Win32 Debug--------------------
+</h3>
+
+
+Microsoft (R) Program Maintenance Utility   Version 6.00.8168.0
+Copyright (C) Microsoft Corp 1988-1998. All rights reserved.
+
+ gbamake -v -w -g -l"c:\agb\lib\libagbsyscall.a" -p"c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN" -g -I"c:\agb\lib" DakarAGB.dsp
+Compiling...
+debug\\Alphaset1.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Alphaset1.c" -o debug\\Alphaset1.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\car.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\car.c" -o debug\\car.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Controls.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Controls.c" -o debug\\Controls.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Dakar.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Dakar.c" -o debug\\Dakar.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Dakar_DataEvents.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Dakar_DataEvents.c" -o debug\\Dakar_DataEvents.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Dakar_Logic.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Dakar_Logic.c" -o debug\\Dakar_Logic.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Dakar_LogicGame.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Dakar_LogicGame.c" -o debug\\Dakar_LogicGame.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Dakar_LogicGameRender.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Dakar_LogicGameRender.c" -o debug\\Dakar_LogicGameRender.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Dakar_LogicMenu.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Dakar_LogicMenu.c" -o debug\\Dakar_LogicMenu.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Debug.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Debug.c" -o debug\\Debug.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\fixed.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\fixed.c" -o debug\\fixed.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Globals.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Globals.c" -o debug\\Globals.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Graphics.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Graphics.c" -o debug\\Graphics.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Interrupts.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Interrupts.c" -o debug\\Interrupts.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\mainmenu.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\mainmenu.c" -o debug\\mainmenu.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Map.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Map.c" -o debug\\Map.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\matrix.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\matrix.c" -o debug\\matrix.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Platform.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Platform.c" -o debug\\Platform.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\sdtio.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\sdtio.c" -o debug\\sdtio.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\share.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\share.c" -o debug\\share.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Sound.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Sound.c" -o debug\\Sound.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\Track.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\Track.c" -o debug\\Track.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\trackdata.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\trackdata.c" -o debug\\trackdata.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+debug\\vector.o
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -w -g -O2 -D GRAPHICS_SUPPORT_MODE_4 -L"c:\agb\lib" -I"C:\dev\DakarAGB\DakarAGB" -mthumb-interwork -nostdlib -Wall -c "C:\dev\DakarAGB\DakarAGB\vector.c" -o debug\\vector.o
+
+
+The filename, directory name, or volume label syntax is incorrect.
+
+Linking...
+copy from DakarAGB.elf(elf32-littlearm) to DakarAGB.bin(binary)
+DakarAGB.elf
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\gcc.exe"  -g -o DakarAGB.elf debug\are_Graphics_DrawTri.o debug\nintendo_header.o debug\start.o debug\AgbDefine.o debug\AgbMacro.o debug\AgbMemoryMap.o debug\Alphaset1.o debug\car.o debug\Controls.o debug\Dakar.o debug\Dakar_DataEvents.o debug\Dakar_Logic.o debug\Dakar_LogicGame.o debug\Dakar_LogicGameRender.o debug\Dakar_LogicMenu.o debug\Debug.o debug\fixed.o debug\Globals.o debug\Graphics.o debug\Interrupts.o debug\mainmenu.o debug\Map.o debug\matrix.o debug\Platform.o debug\sdtio.o debug\share.o debug\Sound.o debug\Track.o debug\trackdata.o debug\vector.o  c:\agb\lib\libagbsyscall.a  -Wl,-Map DakarAGB.map -nostartfiles -Ttext 0x08000000 -Tbss 0x03000000 
+
+
+DakarAGB.bin
+ "c:\PROGRA~1\CYGNUS\THUMBELF-000512\H-I686-CYGWIN32\BIN\objcopy" -v -O binary DakarAGB.elf DakarAGB.bin
+
+
+gcc.exe: debug\Alphaset1.o: No such file or directory
+gcc.exe: debug\car.o: No such file or directory
+gcc.exe: debug\Controls.o: No such file or directory
+gcc.exe: debug\Dakar.o: No such file or directory
+gcc.exe: debug\Dakar_DataEvents.o: No such file or directory
+gcc.exe: debug\Dakar_Logic.o: No such file or directory
+gcc.exe: debug\Dakar_LogicGame.o: No such file or directory
+gcc.exe: debug\Dakar_LogicGameRender.o: No such file or directory
+gcc.exe: debug\Dakar_LogicMenu.o: No such file or directory
+gcc.exe: debug\Debug.o: No such file or directory
+gcc.exe: debug\fixed.o: No such file or directory
+gcc.exe: debug\Globals.o: No such file or directory
+gcc.exe: debug\Graphics.o: No such file or directory
+gcc.exe: debug\Interrupts.o: No such file or directory
+gcc.exe: debug\mainmenu.o: No such file or directory
+gcc.exe: debug\Map.o: No such file or directory
+gcc.exe: debug\matrix.o: No such file or directory
+gcc.exe: debug\Platform.o: No such file or directory
+gcc.exe: debug\sdtio.o: No such file or directory
+gcc.exe: debug\share.o: No such file or directory
+gcc.exe: debug\Sound.o: No such file or directory
+gcc.exe: debug\Track.o: No such file or directory
+gcc.exe: debug\trackdata.o: No such file or directory
+gcc.exe: debug\vector.o: No such file or directory
+
+
+
+<h3>Results</h3>
+DakarAGB.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

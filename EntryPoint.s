@@ -1,0 +1,12 @@
+CODE32 
+AREA my_1st_start, CODE, READONLY
+
+IMPORT main
+	
+ENTRY
+B main
+DCD 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+DCD 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+DCD 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+END

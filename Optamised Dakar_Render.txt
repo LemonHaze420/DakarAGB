@@ -1,0 +1,249 @@
+;-- All comments will use this format, making it easier to
+;-- search and replace them should I need to.
+
+	.EXTERN 	AddrStore
+	.EXTERN 	Dakar_GraphicsMapHeight
+	.EXTERN 	Dakar_ViewPosition
+	.EXTERN 	Graphics_ActiveScreen
+	.EXTERN 	sin_cos_table
+	.EXTERN 	tempCol
+
+Dakar_Render:
+	STMDB	R13!, {R0-R12, R14}		;-- Save out context.
+
+	;-- Calculate screen base address.
+	;-- If Graphics_ActiveScreen == 0 
+	;--		r1 = #0x06000000
+	;-- else
+	;--		r1 = #0x0600a000
+	LDR		R1, =Graphics_ActiveScreen
+	LDR		R0, [R1]
+	MOV		R1,	#0x06000000				
+	CMP		R0, #0
+	BE		DR_AddStore
+	ADD		R1, #0x0a000
+
+DR_AddStore:
+	;-- Now need to store value out.
+	LDR		R0, =AddrStore
+	STRSH	R0, [R1]
+
+	;-- All registers are be safe to use.
+
+	;-- Now calculate mxfp and myfp.
+	LDR		R0,	=Dakar_ViewPosition
+	LDR		R8, [R0]		;-- mx
+	AND		R10, R8, #0xFF	;-- mxfp
+
+	ADD		R0, #2
+	LDR		R9, [R0]		;-- my
+	AND		R11, R9, #0xFF	;-- myfp
+
+	;-- 8, 9, 10, 11 in use
+
+	;-- Calculate plocale	
+	LDR		R0, =Dakar_GraphicsMapHeight
+	
+	;-- Add ((my & 0x7F00) >> 2)
+	AND		R1, R9, #0x7F00
+	MOV		R1, R1, LSR #2
+	ADD		R0, R0, R1
+
+	;-- Add (mx >> 10)
+	MOV		R1, R8, LSR #10
+	ADD		R0, R0, R1
+
+	;-- R0 should now contain plocale's value.
+
+	SUB		R0, R0, #1
+	LDRB	R1, [R0]
+	RSB		R2, R10, #256
+	MUL		R12, R1, R2
+
+	ADD		R0, R0, #2
+	LDRB	R1, [R0]
+	MLA		R12, R1, R10, R12
+
+	SUB		R0, R0, #66
+	LDRB	R1, [R0]
+	RSB		R2, R11, #256
+	MLA		R12, R1, R2, R12
+
+	ADD		R0, R0, #128
+	LDRB	R1, [R0]
+	MLA		R12, R1, R11, R12
+
+	MOV		R12, R12, LSR #1
+	ADD		R12, R12, #2560
+
+	;-- Now for the main loop.
+	MOV		R4, #0				;-- sx
+DR_LineCastLoop:
+	
+		;-- Addr = AddrStore + 240 * sx;
+		LDR		R0, =AddrStore
+		LDR		R1, [R0]
+		MLA		R7, R4, #240, R1
+
+		;-- Calculate mxd and myd
+		LDR		R0, =Dakar_ViewDirection
+		ADD		R0, R0, #2
+		LDR		R1, R0
+		ADD		R1, R1, R4
+		SUB		R1, R1, #40
+		AND		R1, R1, #0xFF
+		MOV		R1, R1, LSL#1	;-- Multiply by 2 so to take data size into account.
+
+		LDR		R0, =sin_cos_table
+		ADD		R0, R0, R1
+		LDR		R10, [R0]
+		MOV		R10, R10, LSR #4
+
+		ADD		R0, R0, #64
+		LDR		R11, [R0]
+		MOV		R11, R11, LSR #4
+
+		;-- sy0 = 0
+		MOV		R6, #0
+
+
+		;-- Now for the inner loop.
+		MOV		R5, #11				;-- steps = LOWER (11)
+DR_LineStepLoop:
+
+			ADD		R8, R8, R10
+			ADD		R9, R9, R11
+
+			// Cache info - may not be able to cache in asm
+			mxfp = mx & 0xFF;
+			myfp = my & 0xFF;
+
+
+			;-- Calculate plocale	
+			LDR		R0, =Dakar_GraphicsMapHeight
+			
+			;-- Add ((my & 0x7F00) >> 2)
+			AND		R1, R9, #0x7F00
+			MOV		R1, R1, LSR #2
+			ADD		R0, R0, R1
+
+			;-- Add (mx >> 10)
+			MOV		R1, R8, LSR #10
+			ADD		R0, R0, R1
+						
+			;-- Calculate point height, minus observation point. (py)
+			SUB		R0, R0, #1
+			LDRB	R1, [R0]
+			AND		R2, R8, #0xFF	;-- mx & 0xFF
+			RSB		R2, R2, #256
+			MUL		R3, R1, R2
+
+			ADD		R0, R0, #2
+			LDRB	R1, [R0]
+			AND		R2, R8, #0xFF	;-- mx & 0xFF
+			MLA		R3, R1, R2, R3
+
+			SUB		R0, R0, #66
+			LDRB	R1, [R0]
+			AND		R2, R9, #0xFF	;-- my & 0xFF
+			RSB		R2, R2, #256
+			MLA		R3, R1, R2, R3
+
+			ADD		R0, R0, #128
+			LDRB	R1, [R0]
+			AND		R2, R9, #0xFF	;-- my & 0xFF
+			MLA		R3, R1, R2, R3
+
+			MOV		R3, R3, LSR #1
+			SUB		R3, R3, R12
+		
+			
+			;-- Project into screen space.
+			LDR		R0, =CamScale
+			MOV		R1, R5, LSL #1
+			ADD		R0, R0, R1
+			LDR		R2, [R0]		;-- CamScale value.
+
+			;-- Fix point mul of R2 and R3
+			MUL		R0, R2, R3
+			MOV		R0, R0, LSR #16	;-- FP16 mul and FP16ToInt in one op.
+			ADD		R0, R0, #53		;-- 53 is half way up the display (horizon point).
+			
+			;-- if sy1 <= sy0 then continue - i.e. don't render.
+			CMP		R0, R6
+			BLE		DR_LineStepLoopEnd
+
+			;-- Calculate colour.
+			RSB		R1, R5, #40		;-- (UPPER - steps)
+			MOV		R2, R1, LSL #8
+			ORR		R2, R1, R2
+			
+			;-- Need to store this information out to RAM, 
+			;-- so that the co-pro can access it.
+			LDR		R1, =tempCol
+			STRH	R2, [R1]
+
+			;-- Render time
+			SUB		R3, R0, R6
+			TST		R3, #1
+			BNE		DR_EvenLength
+			
+			;-- Bit 1 was set, thus the number was odd, 
+			;-- therefore we'll add one to its length so 
+			;-- we have a 16bit write.
+			ADD		R3, R3, #1
+DR_EvenLength:
+			
+			// Dma to addr, and increment for next round.
+			DmaClear(3, tempCol, Addr, tempw, 16);
+			
+			;--	R0	DMA line
+			;--	R1	Address of Data
+			;--	R2	Destination
+			;--	R3	Length >> 1 | stuff
+
+			MOV		R0, #3				;-- DMA line
+		;--	LDR		R1, =tempCol		;-- Address of tempCol (already held)
+			MOV		R2, R7				;-- Dest Addr			
+			MOV		R3, R3, LSR #1
+			AND		R3, R3, #0xFFFF
+			ORR		R3, R3, #0x81000000	;-- Values from the expansion of DmaClear macro 	
+			
+			BL		DmaSet				;-- Call DmaSet code.
+
+			;-- Update highest.
+			MOV		R6, R1
+			
+			;-- Reverse calculate length and increment Addr
+			AND		R3, R3, #0xFFFF
+			MOV		R3, R3, LSL #1
+			ADD		R7, R7, R3
+
+			;-- Quit exit inner loop if we are off the top of the screen.
+			CMP		R6, #107
+			BGE		DR_LineCastLoopEnd
+
+		;-- End of steps loop.
+DR_LineStepLoopEnd:
+		ADD		R5, R5, #1
+		CMP		R5, #40		;-- UPPER
+		BL		DR_LineStepLoop
+
+		;-- Update sky here - maybe.
+
+	
+
+	;-- End of sx loop.
+DR_LineCastLoopEnd:
+	ADD		R4, R4, #1
+	CMP		R4, #80
+	BL		DR_LineCastLoop
+
+	;-- Drop out of outer loop.
+
+	;-- Call other draw routines.
+	BL	Dakar_GameDrawCar
+	BL	Graphics_SwapScreens
+
+	;-- Restore context.
+	LDMIA	R13!, {R0-R12, PC}

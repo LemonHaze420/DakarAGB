@@ -1,0 +1,9 @@
+PROJ = DakarAGB
+
+SRC = $(PROJ).dsp
+args = -v
+cc = gbamake
+
+$(PROJ)._bin:
+	$(cc) $(args) $(SRC)
+

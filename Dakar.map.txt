@@ -1,0 +1,322 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+Graphics_ActiveScreen
+                    0x4               Dakar.o
+Debug_Buffer        0x100             Debug.o
+IntrTable           0x3c              Dakar.o
+Graphics_Buffer     0x10              Dakar.o
+PreviousButtonState
+                    0x4               Dakar.o
+CurrentButtonState  0x4               Dakar.o
+Graphics_WorkingBuffer
+                    0x4               Dakar.o
+Graphics_DisplayMode
+                    0x4               Dakar.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+Address of section .text set to 0x8000000
+Address of section .bss set to 0x3000000
+LOAD start.o
+LOAD Dakar.o
+LOAD Graphics.o
+LOAD Sound.o
+LOAD Controls.o
+LOAD Debug.o
+                0x00008000                .=0x8000
+
+.interp
+ *(.interp)
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.init
+ *(.init)
+
+.plt
+ *(.plt)
+
+.text           0x08000000      0x668
+ *(.text)
+ .text          0x08000000       0xd4 start.o
+                0x08000000                _start
+                0x080000c0                start_vector
+ .text          0x080000d4       0xac Dakar.o
+                0x080000d4                IntrDummy
+                0x080000f8                AGBmain
+ .text          0x08000180      0x3d4 Graphics.o
+                0x080001b4                Graphics_SwapScreens
+                0x080004dc                Graphics_GetPaletteColour
+                0x08000218                Graphics_GetIndexFromPalette
+                0x08000180                Graphics_Init
+                0x08000484                Graphics_SetPaletteColour
+                0x08000474                Graphics_LoadPalette
+ .text          0x08000554        0xc Sound.o
+                0x08000554                Sound_Init
+ .text          0x08000560       0xe4 Controls.o
+                0x08000560                Controls_Init
+                0x080005f0                Controls_IsButtonPressedDB
+                0x080005bc                Controls_IsButtonPressed
+                0x08000580                Controls_Process
+ .text          0x08000644       0x1c Debug.o
+                0x08000644                Debug_NoSuchChoice
+ *(.text.*)
+ *(.stub)
+ *(.gnu.warning)
+ *(.gnu.linkonce.t*)
+ *(.glue_7t)
+ .glue_7t       0x08000660        0x8 Debug.o
+                0x08000660                __AGBPrint_from_thumb
+                0x08000664                __AGBPrint_change_to_arm
+ *(.glue_7)
+                0x08000668                _etext=.
+                0x08000668                PROVIDE (etext, .)
+
+.fini
+ *(.fini)
+
+.rodata         0x08000668       0xac
+ *(.rodata)
+ .rodata        0x08000668       0x38 Dakar.o
+                0x08000668                IntrTable_0
+ .rodata        0x080006a0       0x58 Graphics.o
+ .rodata        0x080006f8       0x1c Controls.o
+ *(.rodata.*)
+ *(.gnu.linkonce.r*)
+
+.rodata1
+ *(.rodata1)
+                0x08000814                .=(ALIGN(0x100)+(.&0xff))
+
+.data           0x08000814        0x0
+ *(.data)
+ *(.data.*)
+ *(.gnu.linkonce.d*)
+
+.data1
+ *(.data1)
+
+.ctors
+ EXCLUDE_FILE ( *crtend.o )*(.ctors)
+ *(SORT(.ctors.*))
+ *crtend(.ctors)
+
+.dtors
+ EXCLUDE_FILE ( *crtend.o )*(.dtors)
+ *(SORT(.dtors.*))
+ *crtend.o(.dtors)
+
+.got
+ *(.got.plt)
+ *(.got)
+
+.dynamic
+ *(.dynamic)
+
+.sdata
+ *(.sdata)
+ *(.sdata.*)
+                0x08000814                _edata=.
+                0x08000814                PROVIDE (edata, .)
+                0x08000814                __bss_start=.
+                0x08000814                __bss_start__=.
+
+.sbss
+ *(.sbss)
+ *(.scommon)
+
+.bss            0x03000000      0x170
+ *(.dynbss)
+ *(.bss)
+ *(.bss.*)
+ *(COMMON)
+ COMMON         0x03000000       0x70 Dakar.o
+                                  0x0 (size before relaxing)
+                0x03000000                Graphics_ActiveScreen
+                0x03000010                IntrTable
+                0x03000050                Graphics_Buffer
+                0x03000060                PreviousButtonState
+                0x03000064                CurrentButtonState
+                0x03000068                Graphics_WorkingBuffer
+                0x0300006c                Graphics_DisplayMode
+ COMMON         0x03000070      0x100 Debug.o
+                                  0x0 (size before relaxing)
+                0x03000070                Debug_Buffer
+                0x03000170                .=ALIGN(0x4)
+                0x03000170                .=ALIGN(0x4)
+                0x03000170                _end=.
+                0x03000170                _bss_end__=.
+                0x03000170                __bss_end__=.
+                0x03000170                PROVIDE (end, .)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.stack          0x00080000        0x0
+                0x00080000                _stack=.
+ *(.stack)
+OUTPUT(DakarAGB.bin elf32-littlearm)

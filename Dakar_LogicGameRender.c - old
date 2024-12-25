@@ -1,0 +1,757 @@
+// FILE:		Dakar_LogicGameRender.c
+// COPYRIGHT:	2001, Broadsword Interactive Ltd.
+// DATE:		
+
+// COMMENTS:	This file contains the Dakar in-game rendering code.
+
+// INCLUDES:
+#include	"Dakar.h"
+
+#include	"Agb.h"	
+#include	"BasicTypes.h"	// Types
+#include	"BasicDefines.h"// Defines
+#include	"Debug.h"		// Debugging tools
+#include	"Macros.h"		// Useful macros.
+
+#include	"Platform.h"	// Platform abstraction layer.
+#include	"Interrupts.h"	// Interrupt handling
+#include	"Graphics.h"	// Graphics functions.
+#include	"Controls.h"	// Control functions.
+#include	"Sound.h"		// Sound functions.
+
+#include	"Extern.h"		// Access to data.
+#include	"share.h"		// Temp  code - this shall be replaced / moved.	(Nothing to do with shared data!!!)
+#include	"Vector.h"
+
+INT line;
+INT	liner;
+INT	gg, fps;
+
+extern BOOL	method;
+
+// ----
+// This function is called when a verticle interrupt occurs.
+// This is when we have time to process game code - and we 
+// probably won't have a lot of that either. Therefore, this
+// function will probably have to be converted to assembly.
+void	Dakar_GameVerticalBlank()
+{
+#if 1
+	Interrupts_Check	|= V_BLANK_INTR_FLAG;
+	*(VUHWORD*)REG_IF	|= V_BLANK_INTR_FLAG;
+	fps++;
+
+	// Voxel technology.
+	
+
+//	memset(Graphics_Buffer[2].Address, jj, 240 * 160);
+//	jj++;
+//	jj &= 0xFF;
+
+#else
+	// this is all no voxel - flat plain crap.
+
+#if 1
+	SHWORD	bg_pa, bg_pb, bg_pc, bg_pd;
+	SHWORD	x0, y0;	// Centre of rotation.
+	SHWORD	x1, y1;	// Co-ord before rotation.
+	SWORD	x2, y2;	// Top-left point.
+	SHWORD	x1mx0, y1my0;
+
+	SHWORD	_Rotation, _XScale, _YScale;
+
+	Interrupts_Check	|= V_BLANK_INTR_FLAG;
+	*(VUHWORD*)REG_IF	|= V_BLANK_INTR_FLAG;
+	line = 0;
+#endif
+
+	liner = 0;
+	line = 1;// + jj;
+//	gg++;
+//	gg &= 0xFF;
+
+	jj++;
+	if (jj > 80)
+	{
+		// Copy memory, and update top of map.
+		// DmaCopy(3, VRAM + 2048 * Graphics_Buffer[ Work halted here for voxel test.
+
+		// And reset counter
+		jj = 1;
+	}
+
+#if 1
+	_Rotation	= 0;//gg;
+	_XScale		= 1;//0x100 + line;
+	_YScale		= 1;//0x100 + line;
+
+	//  pa = cos(bg_rotate)*(1/bg_scale_x)
+    bg_pa = fix_mul(_Cos(_Rotation), fix_inverse(_XScale));
+
+	//  pb = sin(bg_rotate)*(1/bg_scale_x)
+    bg_pb = 0;//fix_mul(_Sin(_Rotation), fix_inverse(_XScale));
+
+	//  pc =-sin(bg_rotate)*(1/bg_scale_y)
+    bg_pc = 0;//fix_mul(-_Sin(_Rotation), fix_inverse(_YScale));
+
+	//  pd = cos(bg_rotate)*(1/bg_scale_y)
+    bg_pd = fix_mul(_Cos(_Rotation), fix_inverse(_YScale));
+
+	//  Set starting point for reference
+
+	//  120-bg_pos_x in the first line is for 
+	// adjustment because bg_pos_x = 0 is center of screen. 
+	//  Lower 2 lines are for matrix calculation.
+	//  Assume center of rotation/scaling as center of screen 
+
+/*	bg_start_x = ((120-bg_pos_x)<<8)
+	- ( bg_pa * 120 )
+	- ( bg_pb * 80 );
+    bg_start_y = ((120-bg_pos_y)<<8)
+	- ( bg_pc * 120 )
+	- ( bg_pd * 80 );
+*/
+	//bg_start_x = ((240-bg_pos_x)<<8)	- ( bg_pa * 240)	- ( bg_pb * 120);
+    //bg_start_y = ((120-bg_pos_y)<<8)	- ( bg_pc * 120)	- ( bg_pd * 120);
+
+	// Centre of rotation.
+	x0 = (240 >> 1);
+	y0 = (160 >> 1);
+
+	// Start point.
+	x1 = (240 - 256) / 2;
+	y1 = (160 - 256) / 2;
+
+	
+	// End point
+	/*
+	x2 =	(	((bg_pa * ((x1 - x0) << 8)) >> 8)	// now in 1.7.8
+			+	((bg_pb * ((y1 - y0) << 8)) >> 8)
+			+	(x0 << 8));
+
+	y2 =	(	((bg_pc * ((x1 - x0) << 8)) >> 8)
+			+	((bg_pd * ((y1 - y0) << 8)) >> 8)
+			+	(y0 << 8));
+	*/
+	
+	///*
+	x1mx0	= (x1 - x0) * 256;
+	y1my0	= (y1 - y0) * 256;
+	x2 =	(	fix_mul(bg_pa, x1mx0)
+			+	fix_mul(bg_pb, y1my0)
+			+	(x0 * 256));
+
+	y2 =	(	((bg_pc * x1mx0) / 256)
+			+	((bg_pd * y1my0) / 256)
+			+	(y0 * 256));
+	//*/
+
+	*(UHWORD*)REG_BG2X_H	= (u16)(u32)((x2 & 0x0fff0000)>>16);
+	*(UHWORD*)REG_BG2X_L	= (x2 & 0xffff);
+	*(UHWORD*)REG_BG2Y_H	= (u16)(u32)((y2 & 0x0fff0000)>>16);
+	*(UHWORD*)REG_BG2Y_L	= (y2 & 0xffff);
+
+	*(UHWORD*)REG_BG2PA		= (SHWORD)bg_pa;
+	*(UHWORD*)REG_BG2PB		= (SHWORD)bg_pb;
+	*(UHWORD*)REG_BG2PC		= (SHWORD)bg_pc;
+	*(UHWORD*)REG_BG2PD		= (SHWORD)bg_pd;
+#endif
+
+	x2 = 120 << 8;
+	y2 = 0;//256 << 8;
+
+	*(UHWORD*)REG_BG2X_H	= (u16)(u32)((x2 & 0x0fff0000)>>16);
+	*(UHWORD*)REG_BG2X_L	= (x2 & 0xffff);
+	*(UHWORD*)REG_BG2Y_H	= (u16)(u32)((y2 & 0x0fff0000)>>16);
+	*(UHWORD*)REG_BG2Y_L	= (y2 & 0xffff);
+#endif
+}
+
+// ----
+// In-game horizontal blank routines.
+// This will have to be assembly I feel.
+void	Dakar_GameHorizontalBlank()
+{
+#if 0
+	
+	INT		_BackgroundIndex, _XScale, _YScale, _Rotation;
+	SHWORD	bg_pa, bg_pb, bg_pc, bg_pd;
+	SWORD	bg_start_x, bg_start_y;
+	SHWORD	bg_pos_x, bg_pos_y;
+	
+	line++;
+//	if (line < 60)
+//		return;
+
+//	if ((line > 110) && (line % 2))
+//		return;
+
+	_BackgroundIndex	= 2;
+	_XScale				= 0x000 + 20 * max(5, (line - 60));
+	_YScale				= 0x000 + 20 * max(5, (line - 60));
+	_Rotation			= 0;
+	
+	bg_pos_x = 0;
+	bg_pos_y = jj - 90;
+
+#if 0 // Work on hills, but not paying off too well.
+	if ((line > 70) && (line < 100))
+	{
+		_XScale				= 0x000 + 20 * max(5, (line - 60)) + (100 - line);
+		_YScale				= 0x000 + 20 * max(5, (line - 60)) + (100 - line);
+	}
+#endif
+
+	//  pa = cos(bg_rotate)*(1/bg_scale_x)
+    bg_pa = fix_mul(_Cos(_Rotation), fix_inverse(_XScale));
+
+	//  pb = sin(bg_rotate)*(1/bg_scale_x)
+    bg_pb = 0;//fix_mul(_Sin(_Rotation), fix_inverse(_XScale));
+
+	//  pc =-sin(bg_rotate)*(1/bg_scale_y)
+    bg_pc = 0;//fix_mul(-_Sin(_Rotation), fix_inverse(_YScale));
+
+	//  pd = cos(bg_rotate)*(1/bg_scale_y)
+    bg_pd = fix_mul(_Cos(_Rotation), fix_inverse(_YScale));
+
+	//  Set starting point for reference
+
+	//  120-bg_pos_x in the first line is for 
+	// adjustment because bg_pos_x = 0 is center of screen. 
+	//  Lower 2 lines are for matrix calculation.
+	//  Assume center of rotation/scaling as center of screen 
+
+    bg_start_x = ((120-bg_pos_x)<<8)
+	- ( bg_pa * 120 )
+	- ( bg_pb * 80 );
+    bg_start_y = ((80-bg_pos_y)<<8)
+	- ( bg_pc * 120 )
+	- ( bg_pd * 80 );
+
+	// X - High and Low.
+	*(UHWORD*)BGXHRegs[_BackgroundIndex]	= (u16)(u32)((bg_start_x & 0x0fff0000)>>16);
+	*(UHWORD*)BGXLRegs[_BackgroundIndex]	= (bg_start_x & 0xffff);
+
+	// Y - High and Low.
+	*(UHWORD*)BGYHRegs[_BackgroundIndex]	= (u16)(u32)((bg_start_y & 0x0fff0000)>>16);
+	*(UHWORD*)BGYLRegs[_BackgroundIndex]	= (bg_start_y & 0xffff);
+	
+	*(UHWORD*)BGPARegs[_BackgroundIndex]	= (SHWORD)bg_pa;
+	*(UHWORD*)BGPBRegs[_BackgroundIndex]	= (SHWORD)bg_pb;
+	*(UHWORD*)BGPCRegs[_BackgroundIndex]	= (SHWORD)bg_pc;
+	*(UHWORD*)BGPDRegs[_BackgroundIndex]	= (SHWORD)bg_pd;
+
+	//Graphics_RotateScaleBackground(2, 0x100 + 2 * line, 0x100 + 3 * line, 0);
+#endif
+}
+
+
+// Write to a sequentially ordered 256 colour tile map (30 tiles
+// per row, and a gap of two, when working on a 32x32 tile map. 
+// The bottom two rows can not be addressed, as there are 
+// insufficient tiles - would need 60 more).
+#define	GRAPHICS_PUTPIXELVIALINEARTILEMAP(x, y, col)	\
+*(UBYTE*)(BG_VRAM + 2 * 16384							\
+		+ ((64 * 30) * (y / 8))							\
+		+ (8 * (y % 8))									\
+		+ (64 * (x >> 3))								\
+		+ (x % 8)										\
+		) = col;										// The colour.
+
+/* Test code for the macro above.
+	// ----
+	// Test implementation of the above idea.
+
+	BlockAddress	= Graphics_Buffer[2].Address;
+	for (i = 0; i < 1024; i++)
+	{
+		*(UHWORD*)BlockAddress = i;
+		BlockAddress += 2;
+
+		if (!(i % 30))
+			BlockAddress += 4;
+	}
+
+	// Fill the display with 
+	for (i = 0; i < 240; i++)	// Scan lines - note only half the actually display width. I'm going to render all voxels as two pixels wide, at least for now.
+	{
+		//BlockAddress	= BG_VRAM + 2 * 16384 + i; //Graphics_Buffer[2].CharBase
+		//ReadAddr		= BG_VRAM + 1 * 16384 + i;
+
+		for (j = 0; j < 160; j++)
+		{
+			GRAPHICS_PUTPIXELVIALINEARTILEMAP(i, j, i);
+
+			// *BlockAddress = *ReadAddr;
+			
+			// Ready for next loop.
+			//BlockAddress += 8;
+			//ReadAddr += 8;
+		}
+	}
+*/
+
+// ----
+LONG	CamScale[80];
+void	Dakar_SetCamera()
+{
+	INT i;
+
+	// Set up camera scaling factors - this will eventually be a hardcoded lookup table.
+	for (i = 1; i < 80; i++)
+	{
+		CamScale[i] = (8192 * 2) / (i);
+	}
+
+	//	Graphics_ActiveScreen = 1 - Graphics_ActiveScreen;
+}
+
+// ----
+// Actually render the frame and flip the buffer.
+void	Dakar_Render()
+{
+	UBYTE		sx;			// X-screen pos (ray line)
+	SHWORD		sy0, sy1;	// Y-screen variables.
+	
+	// All map co-ords are in 1.7.8 fixed point format
+	SHWORD		mx, my;		// Map x and y (initilised as above, and modified by the following two variables per rayline step)
+	SHWORD		mxd,myd;	// Map x, y deltas
+	UBYTE		mxfp, myfp;	// Map fractional part.
+	
+	UBYTE		steps;		// Number of steps per rayline.
+	UBYTE		section;
+	UBYTE		lower, upper;
+
+	SHWORD		cheight;	// Camera height
+	SHWORD		py;			// Height of land at map point, (mx,my)
+	SHWORD		rpy;		// Rendered height - must be higher than this to be considered.
+	UHWORD		tempCol, tempw;		
+
+	INT			j;
+	UBYTE*		plocale;
+	UBYTE*		Addr, *AddrStore;
+
+	// Voxel technology.
+
+	// The plain is simply to render the terrain as a voxel map.
+	// Using a bitmap sky map. 
+	// Correct rendering of surface objects.
+
+	// Right. Could potentially use any screen mode.
+	//	Bitmap modes will be too slow.
+	//	Mode 0 or 1 seem suitable. 
+	//	Mode 2 could allow for a limited z-axis rotation (zoom into smaller screen segment, and use hardware screen rotation).
+	//	Mode 2, and mode 1 do not offer enough buffers.
+	//	Thus mode 0
+
+	// Mode 0.
+	//	Four plain buffers
+
+	// View cone, with single sweep (aptly illustraiting how poor integer maths can be).
+	// \___________/
+	//  \       . /
+	//   \     . /
+	//    \   . /
+	//     \  ./
+	//      \_/
+	//		 v
+
+	// No need to transform height map, as the x and y increments on the sweep are governed by the y-axis rotation.
+
+	// ----
+	// Test implementation
+
+	//INTVECTOR			Dakar_ViewPosition;
+
+	// Rest frame time counter (fps is actually the count of the number of v-blanks that occur during a frame render).
+	fps = 0;
+
+	// Clear the screen.
+	Col.PaletteIndex = 0;
+	Graphics_ClearScreen(Col);
+
+	// Store screen base address.
+	AddrStore = Graphics_Buffer[Graphics_ActiveScreen].Address;
+
+	// Calculate interpolated camera height.
+	//plocale = &Map_Alt[((Dakar_ViewPosition.Y >> 8) << 4) + (Dakar_ViewPosition.X >> 8)];
+	plocale = &Map_Alt[(Dakar_ViewPosition.Y & 0x7F00) + (Dakar_ViewPosition.X >> 8)];
+	cheight =	(	(	(*(UBYTE*)(plocale -1))		* (256 -	(Dakar_ViewPosition.X & 0xFF))
+					+	(*(UBYTE*)(plocale +1))		* (			(Dakar_ViewPosition.X & 0xFF))
+					+	(*(UBYTE*)(plocale -256))	* (256 -	(Dakar_ViewPosition.Y & 0xFF))
+					+	(*(UBYTE*)(plocale +256))	* (		 	(Dakar_ViewPosition.Y & 0xFF))) >> 1) + 2560;
+
+
+	// Ray cast loop. (one per line of the horizontal display).
+	for (sx = 0; sx < 80; sx ++)
+	{
+		// Recalculate bottom of screen address.
+		Addr = AddrStore + 240 * sx;
+
+		mx = Dakar_ViewPosition.X;	// Centre point for camera.
+		my = Dakar_ViewPosition.Y;	// and inital render pos.
+	 
+		// Set up offset values. 
+		// These values are added to the mx, my values per rayline step.
+		mxd = _Sin((Dakar_ViewDirection.Y + ((sx - 40) )) & 0xFF) >> 4;		// Calculate angle for ray line based on overall 
+		myd = _Cos((Dakar_ViewDirection.Y + ((sx - 40) )) & 0xFF) >> 4;		// camera orientation and the ray line number.
+		sy0 = 0;
+		rpy = 0;
+
+		lower = 11;//11;
+		upper = 40;//40;
+
+		// Step coverns the distance scaling factor, and 
+		// the number of sections that will be rendered.
+		for (steps = lower; steps < upper; steps++)	// These values need to be set to give optamal fps and appearance.
+		{
+			// Step down the ray line. 
+			mx += mxd;
+			my += myd;
+
+			// Cache info.
+			mxfp = mx & 0xFF;
+			myfp = my & 0xFF;
+
+			// Get point height, minus observation piont.
+	//		/*
+			//plocale = &Map_Alt[((my >> 8) << 4) + (mx >> 8)];
+			plocale = &Map_Alt[(my & 0x7F00) + (mx >> 8)];
+			py =	(	(	(*(UBYTE*)(plocale -1))		* (256 -	mxfp)
+						+	(*(UBYTE*)(plocale +1))		* (			mxfp)
+						+	(*(UBYTE*)(plocale -256))	* (256 -	myfp)
+						+	(*(UBYTE*)(plocale +256))	* (		 	myfp)) >> 1)
+					-  cheight;
+	//		*/
+
+			// Non-filtering method
+	//		py = IntToFP16(Map_Alt[(my & 0x7F00) + (mx >> 8)]) - cheight;
+
+			// Project into screen space.
+			sy1 = FP16ToInt(FP16Mul(py, CamScale[steps])) + 53;	// Fixed point maths and a conversion back to a plain integer.
+
+			/*
+			Ys = ( Yv - Ye ) * Yk / Z + Yc
+
+			Ys: coordinate projected onto the screen
+			Yv: altitude of the voxel column
+			Ye: coordinate of the eye
+			Z: distance from the eye to the considered point
+			Yk: constant to scale the projection, possibly negative
+			Yc: constant to centre the projection, usually half the screen resolution
+			*/
+
+	//		// Not on the screen?
+	//		if (sy1 < 0)
+	//			continue;
+
+			// If pos is higher than previous so far...
+			if (sy1 > sy0)
+			{
+#if 1
+				rpy = py;
+
+				// Get bar colour
+				Col.PaletteIndex = min(Map_Alt[my + (mx >> 8)] - (steps >> 1) + 40 + (( ((mx >> 8)%2) ^ ((my >> 8)%2) )?10:-10), 160);	
+
+#if 0
+				// Draw the bar.
+			/*	if ((sy1 - sy0) > 6)
+				{
+					Graphics_DrawHorizontal(sy0, sy1, sx, &Col);
+					Addr += (sy1 - sy0);
+				}
+				else
+			*/
+				{
+					tempCol = (Col.PaletteIndex << 8) | Col.PaletteIndex;
+					for (j = ((sy1 - sy0) >> 1); j--;)
+					{
+						*(UHWORD*)(Addr) = tempCol;//Col.PaletteIndex;
+					//	*(UBYTE*)(Addr + 240) = Col.PaletteIndex;
+						Addr += 2;
+					}
+				}
+#else
+				// Two colours together.
+				tempCol = (Col.PaletteIndex << 8) | Col.PaletteIndex;
+
+				// Run length...
+				tempw = (sy1 - sy0);
+				if (tempw % 2)	// 16bit writes.
+					tempw++;
+
+				// Dma to addr, and increment for next round.
+				DmaClear(3, tempCol, Addr, tempw, 16);
+				Addr += tempw;
+#endif
+			
+#endif
+				// Update highest.
+				// Break if highest is off top of screen.
+				sy0 = sy1;
+				if (sy0 >= 240)
+					break;
+			}
+		}
+
+		// unfold loop above to work at different step rates.
+		mxd <<= 1;
+		myd <<= 1;
+
+
+		// Draw in sky line.
+	//	Col.PaletteIndex = 0;
+	//	Graphics_DrawHorizontal(sy0, 107, sx, &Col);
+	}
+
+	// Dma line duplication.
+//	Addr = Graphics_Buffer[Graphics_ActiveScreen].Address;
+//	for (j = 80; j--;)
+//	{
+//		DmaCopy(3, Addr, Addr + 240, 106, 16);
+//		Addr += 480;
+//	}
+	
+
+	// fps is now the numebr of v-blanks that it took to render the frame.
+	Col.PaletteIndex = 1;
+	for (j = 0; j < 100; j += 5)
+	{
+		Graphics_DrawHorizontal(90, 100, j, &Col);
+	}
+	if (fps > 0)
+	{
+		for (j = 0; j < (60 / fps); j++)
+		{
+			Graphics_DrawHorizontal(92, 98, j, &Col);
+		}
+	}
+
+	
+	if (method)
+	{
+		for (j = 150; j < 160; j++)
+		{
+			Graphics_DrawHorizontal(92, 98, j, &Col);
+		}
+	}
+
+	// Swap buffers.
+	Graphics_SwapScreens();
+}
+
+/*
+#define FOCAL_DISTANCE 200
+void Project(VPOINT	*_Vertex)
+{
+	if(!_Vertex->z)
+		_Vertex->z=1;
+
+	_Screen.x = fpMul(_Vertex->x, FOCAL_DISTANCE);
+	_Screen.y = fpMul(_Vertex->y, FOCAL_DISTANCE);
+	_Screen.x = fpDiv(_Screen.x, _Vertex->z);
+	_Screen.y = fpDiv(_Screen.y, _Vertex->z);
+	_Screen.x	+= 120 << 14
+	_Screen.y	+= 80 << 14;
+}
+*/
+
+// ----
+// Setup the rendering process, which will be 
+// controlled by the two functions above.
+
+#define	FOCAL_DISTANCE	200
+#define	DAKAR_HORIZON_SIZE		
+void	Dakar_SetUpRender()
+{
+#if 0
+
+#if 1
+	// Set up BGs.
+
+	// BG0 is the horizon.
+	// BG1 is the overlay
+	// BG2 is the terrain.
+
+	// Process them in the following order.
+	// BG2, BG0 and finally BG1. (That does make some logical sense when writing this).
+
+	// ----
+	// Calculate / update display rotation info.
+	Dakar_ViewDirection.X = 0;	// Should be aligned to elevation - will need to fade between sections.
+	Dakar_ViewDirection.Y = 0;	// Should be aligned to track section - will have to interpolate between sections.
+	Dakar_ViewDirection.Z = 0;	// Not used. - Car rotates about its own z-axis. 
+
+	// ----
+	// BG2 - terrain.
+	
+	// This is where the majority of the work will have to be done. 
+	// Sort-out what tiles to put on the screen.
+	
+
+	// ----
+	// BG0 - the horizon.
+	Graphics_OffsetBackground(	0, 
+								((512 - 240) * (Dakar_ViewDirection.Y & 0xFF)) / 256,	// There are 256 possible Y axis steps. 0 - 0degrees, 127 - 180degrees.
+								-((Dakar_ViewDirection.X & 0xFF) / 8));					// Horizon moves up and down by a factor of a negative eighth of the your X-axis rotation.	
+
+	// ----
+	// BG1 - the overlay.
+
+	// Some information is not rendered if the driver (or co-driver) is feeling 'poorly'.
+	// First draw things that are always shown.
+
+	// Timer and lives
+	Dakar_GameDrawString(0, 0, "ONE", TEXT_NORMAL);
+	Dakar_GameDrawString(29, 0, "LIVES III", TEXT_RIGHT);
+
+	//if (playersCar.Driver.) // Info about driver health & something about info flash rate.
+	{
+		// 
+		
+	}
+
+#else
+	INT		Iterator, XIterator, YIterator;
+	VPOINT	CameraPos;
+	MATRIX	CameraOri;
+
+	int	ShortCut;
+	// Now, what do we do here?
+	// Well, we determine which map points are going to need translating.#
+	// We translate / rotate them relative to camera.
+	// We convert them to 2d space.
+	// We clip them
+
+
+	// So, where are we, and what should we be able to see?
+	// This information should come from the car.
+	CameraPos = 	playersCar.aConfigurations[0].CMPosition;
+	CameraOri = 	playersCar.aConfigurations[0].Orientation; 
+
+	//Dakar_ScreenVertices[Iterator] = MtransformVectorToLocal(CameraOri, Dakar_ScreenVertices[Iterator]);
+
+	// Right then, what points are near the car's position?
+	// Simple 'dirty' method for now. 
+	//	Copy all the verticies that might be in front of camera
+	//	into a buffer and transpose them relative to the camera.
+	for (Iterator = 24; Iterator--;) // 4 * 6 points
+	{
+		// Convert to camera orientation
+		Dakar_ScreenVertices[Iterator] = VRetSub(viewableTrack[Iterator], CameraPos);
+		Dakar_ScreenVertices[Iterator] = MtransformVectorToLocal(CameraOri, Dakar_ScreenVertices[Iterator]);
+
+		// Convert to 2D
+		Dakar_ScreenVertices[Iterator].x = fpMul(Dakar_ScreenVertices[Iterator].x, FOCAL_DISTANCE);
+		Dakar_ScreenVertices[Iterator].y = fpMul(Dakar_ScreenVertices[Iterator].y, FOCAL_DISTANCE);
+		Dakar_ScreenVertices[Iterator].x = fpDiv(Dakar_ScreenVertices[Iterator].x, Dakar_ScreenVertices[Iterator].z);
+		Dakar_ScreenVertices[Iterator].y = fpDiv(Dakar_ScreenVertices[Iterator].y, Dakar_ScreenVertices[Iterator].z);
+
+		Dakar_ScreenVertices[Iterator].x >>= 14;
+		Dakar_ScreenVertices[Iterator].y >>= 14;
+
+		Dakar_ScreenVertices[Iterator].x += 120;
+		Dakar_ScreenVertices[Iterator].y += 80;
+	}
+	
+	// Reset counters
+	Graphics_TriCount = 0;
+	ShortCut = 0;
+	Iterator = 0;
+		 
+	// Set the poly into the rendering list.
+	for (YIterator= 0; YIterator < 6; YIterator++)		// Points, not tris.
+	{
+		for (XIterator= 0; XIterator < 4; XIterator++)	// Points, not tris.
+		{
+			// Poly 1.
+			Graphics_TriPointArray[ShortCut + 0].X		= Dakar_ScreenVertices[Iterator + 4].x;
+			Graphics_TriPointArray[ShortCut + 0].Y		= Dakar_ScreenVertices[Iterator + 4].y;
+			Graphics_TriPointArray[ShortCut + 1].X		= Dakar_ScreenVertices[Iterator + 5].x;
+			Graphics_TriPointArray[ShortCut + 1].Y		= Dakar_ScreenVertices[Iterator + 5].y;
+			Graphics_TriPointArray[ShortCut + 2].X		= Dakar_ScreenVertices[Iterator + 0].x;
+			Graphics_TriPointArray[ShortCut + 2].Y		= Dakar_ScreenVertices[Iterator + 0].y;
+			Graphics_TriColourArray[Graphics_TriCount]	= Col;
+			Graphics_TriCount++;
+			ShortCut += 3;
+
+			// Poly 2.
+			Graphics_TriPointArray[ShortCut + 0].X		= Dakar_ScreenVertices[Iterator + 5].x;
+			Graphics_TriPointArray[ShortCut + 0].Y		= Dakar_ScreenVertices[Iterator + 5].y;
+			Graphics_TriPointArray[ShortCut + 1].X		= Dakar_ScreenVertices[Iterator + 1].x;
+			Graphics_TriPointArray[ShortCut + 1].Y		= Dakar_ScreenVertices[Iterator + 1].y;
+			Graphics_TriPointArray[ShortCut + 2].X		= Dakar_ScreenVertices[Iterator + 0].x;
+			Graphics_TriPointArray[ShortCut + 2].Y		= Dakar_ScreenVertices[Iterator + 0].y;
+			Graphics_TriColourArray[Graphics_TriCount]	= Col;
+			Graphics_TriCount++;
+			ShortCut += 3;
+
+			Iterator++;
+		}
+	}
+#endif
+#endif
+}
+
+// ----
+// Adds a polygon to the rendering list.
+// Use inline code, it is too slow to make function calls.
+void	Dakar_AddTriangle(INT _X0, INT _Y0,
+						  INT _X1, INT _Y1,
+						  INT _X2, INT _Y2,
+						  COLOUR	_Col)
+{
+	/*
+	INT	i;
+	i = 3 * PolyCount;
+
+	if (PolyCount < MAX_NUMBER_OF_POLYS)
+	{
+		PolyPointArray[i + 0].X		= _X0;
+		PolyPointArray[i + 0].Y		= _Y0;
+		PolyPointArray[i + 1].X		= _X1;
+		PolyPointArray[i + 1].Y		= _Y1;
+		PolyPointArray[i + 2].X		= _X2;
+		PolyPointArray[i + 2].Y		= _Y2;
+		PolyColourArray[PolyCount]	= _Col;
+
+		PolyCount++;
+	}
+	*/
+}
+
+
+// ----
+// A string drawing routing specific to the game. 
+void	Dakar_GameDrawString(INT	_X,
+							 INT	_Y, 
+							 CHAR*	_String,
+							 UBYTE	_Style)
+{
+	CHAR*	Index;
+	CHAR	Char;
+	SBYTE	Offset;
+	Index = _String;
+
+	Offset = 0;
+	if (_Style & TEXT_RIGHT)
+		Offset = -strlen(_String);
+
+	if (_Style & TEXT_CENTRED)
+		Offset = -(strlen(_String) >> 1);
+
+	while (*Index)
+	{
+		Char = *Index;
+		if ((Char < 65) && (Char >= (65 + 26)))
+		{
+			Char = 0;	// Clear unknown chars
+		}
+		*(UHWORD*)(Graphics_Buffer[1].Address + 2 * (32 * _Y + _X + Offset)) = Char - 'A' + 1;
+		
+		Index++;
+		_X++;
+	}
+}
+

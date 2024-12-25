@@ -1,0 +1,72 @@
+#ifndef	_TRACKDATA_H_
+#define	_TRACKDATA_H_
+
+#include	"BasicTypes.h"
+#include	"Matrix.h"
+#include	"BasicDefines.h"
+#include	"extern.h"
+
+//TRACK stuff
+#define		MAX_POLYS		30
+#define		TRACK_WIDTH		10
+#define		TRACK_LENGTH	10	//this is the legth we can see into the sistace.. about 50m
+
+#define		VIEW_X			6
+#define		VIEW_Y			5
+
+/*
+	This is a struct to hold the points of a triangle for a vector
+	I hope thwe fixed point stuff is ok or this is going to go tits up
+	The points are recorded in an anti clockwise fashion
+*/
+
+
+
+//Ok, this defines the current part of the track that the player is on
+//the play will basically be in this stucture at point [4][0] when diving down the centre
+//I'd better do a small pic to describe how I'm going to load in the triangles
+/*
+		
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	*		  *	*		  *	*		  *	*		  *	*		  *	*
+	*	1	*	*	3   *	*	5   *	*	7   *	*	9   *	*
+	*	  *		*	  *		*	  *  	*	  *		*	  *  	*
+	*	*	0	*	*	2	*   *	4	*	*	6	*   *	8	*
+	* *			* *			* *			* *			* *			*
+	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+*/
+//At the moment this is just the point definitions for the track but it will have info for sprites 
+//and other effects later on.
+//------
+// Variables and stuff	
+
+//extern TRI viewableTrack[][]; //this is the Track data that we send to be rendered
+VPOINT	viewableTrackBasePos; //the point at which [4][whatever the car is at] is.
+
+typedef 
+struct _TrackTile
+{
+	INT TileIndex;
+	INT x1;
+	INT y1;
+	INT x2;
+	INT y2;
+	INT x3;
+	INT y3;
+	INT x4;
+	INT y4;
+}
+TrackTile;
+
+//this will load up all the data needed at the start into track and set up the initial 
+//view.
+BOOL	InitTrackData(HUNK track, INT trackNum);
+
+//This will move the VIEWABLE_TRACK matrix to show where the car is
+void	ProcessTrackViewer(VECTOR carMove, fp14 carOrientation, HUNK track);
+
+//this will load up new data into track.
+void	MoveTrackHunk(HUNK track, CHAR moveX, CHAR moveY);
+
+#endif

@@ -1,0 +1,123 @@
+Dakar.o : Dakar.c Dakar.h Agb.h C:/agb/include/AgbTypes.h \
+ C:/agb/include/AgbDefine.h C:/agb/include/AgbMemoryMap.h \
+ C:/agb/include/AgbMacro.h C:/agb/include/AgbSystemCall.h \
+ C:/agb/include/AgbSound.h C:/agb/include/AgbMultiBoot.h \
+ C:/agb/include/IsAgbPrint.h BasicTypes.h BasicDefines.h Debug.h \
+ Macros.h Car.h CarDefines.h Matrix.h Vector.h Fixed.h macros.h \
+ extern.h C:/agb/include/AGBTypes.h TrackData.h Extern.h AgbMacro.h \
+ Map.h Platform.h Interrupts.h Graphics.h AgbMemoryMap.h Controls.h \
+ Sound.h share.h C:/agb/include/agb.h
+Dakar_DataEvents.o : Dakar_DataEvents.c Dakar.h Agb.h \
+ C:/agb/include/AgbTypes.h C:/agb/include/AgbDefine.h \
+ C:/agb/include/AgbMemoryMap.h C:/agb/include/AgbMacro.h \
+ C:/agb/include/AgbSystemCall.h C:/agb/include/AgbSound.h \
+ C:/agb/include/AgbMultiBoot.h C:/agb/include/IsAgbPrint.h \
+ BasicTypes.h BasicDefines.h Debug.h Macros.h Car.h CarDefines.h \
+ Matrix.h Vector.h Fixed.h macros.h extern.h C:/agb/include/AGBTypes.h \
+ TrackData.h Extern.h AgbMacro.h Map.h Platform.h Interrupts.h \
+ Graphics.h AgbMemoryMap.h Controls.h Sound.h share.h \
+ C:/agb/include/agb.h MainbackGround.c
+Dakar_Logic.o : Dakar_Logic.c Dakar.h Agb.h C:/agb/include/AgbTypes.h \
+ C:/agb/include/AgbDefine.h C:/agb/include/AgbMemoryMap.h \
+ C:/agb/include/AgbMacro.h C:/agb/include/AgbSystemCall.h \
+ C:/agb/include/AgbSound.h C:/agb/include/AgbMultiBoot.h \
+ C:/agb/include/IsAgbPrint.h BasicTypes.h BasicDefines.h Debug.h \
+ Macros.h Car.h CarDefines.h Matrix.h Vector.h Fixed.h macros.h \
+ extern.h C:/agb/include/AGBTypes.h TrackData.h Extern.h AgbMacro.h \
+ Map.h Platform.h Interrupts.h Graphics.h AgbMemoryMap.h Controls.h \
+ Sound.h share.h C:/agb/include/agb.h
+Dakar_LogicGame.o : Dakar_LogicGame.c Dakar.h Agb.h \
+ C:/agb/include/AgbTypes.h C:/agb/include/AgbDefine.h \
+ C:/agb/include/AgbMemoryMap.h C:/agb/include/AgbMacro.h \
+ C:/agb/include/AgbSystemCall.h C:/agb/include/AgbSound.h \
+ C:/agb/include/AgbMultiBoot.h C:/agb/include/IsAgbPrint.h \
+ BasicTypes.h BasicDefines.h Debug.h Macros.h Car.h CarDefines.h \
+ Matrix.h Vector.h Fixed.h macros.h extern.h C:/agb/include/AGBTypes.h \
+ TrackData.h Extern.h AgbMacro.h Map.h Platform.h Interrupts.h \
+ Graphics.h AgbMemoryMap.h Controls.h Sound.h share.h \
+ C:/agb/include/agb.h
+Dakar_LogicGameRender.o : Dakar_LogicGameRender.c Dakar.h Agb.h \
+ C:/agb/include/AgbTypes.h C:/agb/include/AgbDefine.h \
+ C:/agb/include/AgbMemoryMap.h C:/agb/include/AgbMacro.h \
+ C:/agb/include/AgbSystemCall.h C:/agb/include/AgbSound.h \
+ C:/agb/include/AgbMultiBoot.h C:/agb/include/IsAgbPrint.h \
+ BasicTypes.h BasicDefines.h Debug.h Macros.h Car.h CarDefines.h \
+ Matrix.h Vector.h Fixed.h macros.h extern.h C:/agb/include/AGBTypes.h \
+ TrackData.h Extern.h AgbMacro.h Map.h Platform.h Interrupts.h \
+ Graphics.h AgbMemoryMap.h Controls.h Sound.h share.h \
+ C:/agb/include/agb.h
+Dakar_LogicMenu.o : Dakar_LogicMenu.c Dakar.h Agb.h \
+ C:/agb/include/AgbTypes.h C:/agb/include/AgbDefine.h \
+ C:/agb/include/AgbMemoryMap.h C:/agb/include/AgbMacro.h \
+ C:/agb/include/AgbSystemCall.h C:/agb/include/AgbSound.h \
+ C:/agb/include/AgbMultiBoot.h C:/agb/include/IsAgbPrint.h \
+ BasicTypes.h BasicDefines.h Debug.h Macros.h Car.h CarDefines.h \
+ Matrix.h Vector.h Fixed.h macros.h extern.h C:/agb/include/AGBTypes.h \
+ TrackData.h Extern.h AgbMacro.h Map.h Platform.h Interrupts.h \
+ Graphics.h AgbMemoryMap.h Controls.h Sound.h share.h \
+ C:/agb/include/agb.h sdtio.h
+Graphics.o : Graphics.c C:/agb/include/agb.h C:/agb/include/AgbTypes.h \
+ C:/agb/include/AgbDefine.h C:/agb/include/AgbMemoryMap.h \
+ C:/agb/include/AgbMacro.h C:/agb/include/AgbSystemCall.h \
+ C:/agb/include/AgbSound.h C:/agb/include/AgbMultiBoot.h \
+ C:/agb/include/IsAgbPrint.h share.h Graphics.h BasicTypes.h Macros.h \
+ AgbMemoryMap.h AgbDefine.h BasicDefines.h AdditionalAGBDefines.h \
+ Extern.h C:/agb/include/AGBTypes.h Vector.h Fixed.h macros.h Debug.h
+Sound.o : Sound.c Sound.h BasicTypes.h Macros.h AgbMemoryMap.h
+Controls.o : Controls.c Controls.h BasicTypes.h Macros.h AgbMemoryMap.h \
+ BasicDefines.h Debug.h
+Interrupts.o : Interrupts.c Interrupts.h Agb.h \
+ C:/agb/include/AgbTypes.h C:/agb/include/AgbDefine.h \
+ C:/agb/include/AgbMemoryMap.h C:/agb/include/AgbMacro.h \
+ C:/agb/include/AgbSystemCall.h C:/agb/include/AgbSound.h \
+ C:/agb/include/AgbMultiBoot.h C:/agb/include/IsAgbPrint.h \
+ BasicTypes.h BasicDefines.h Macros.h Debug.h
+Platform.o : Platform.c Platform.h Agb.h C:/agb/include/AgbTypes.h \
+ C:/agb/include/AgbDefine.h C:/agb/include/AgbMemoryMap.h \
+ C:/agb/include/AgbMacro.h C:/agb/include/AgbSystemCall.h \
+ C:/agb/include/AgbSound.h C:/agb/include/AgbMultiBoot.h \
+ C:/agb/include/IsAgbPrint.h BasicTypes.h BasicDefines.h Graphics.h \
+ Macros.h AgbMemoryMap.h
+vector.o : vector.c Vector.h Fixed.h BasicTypes.h macros.h \
+ C:/agb/include/AgbTypes.h
+matrix.o : matrix.c Matrix.h Vector.h Fixed.h BasicTypes.h macros.h \
+ C:/agb/include/AgbTypes.h
+car.o : car.c Controls.h BasicTypes.h Macros.h AgbMemoryMap.h Car.h \
+ CarDefines.h BasicDefines.h Matrix.h Vector.h Fixed.h macros.h \
+ C:/agb/include/AgbTypes.h extern.h C:/agb/include/AGBTypes.h
+fixed.o : fixed.c fixed.h BasicTypes.h macros.h
+Globals.o : Globals.c BasicTypes.h BasicDefines.h Agb.h \
+ C:/agb/include/AgbTypes.h C:/agb/include/AgbDefine.h \
+ C:/agb/include/AgbMemoryMap.h C:/agb/include/AgbMacro.h \
+ C:/agb/include/AgbSystemCall.h C:/agb/include/AgbSound.h \
+ C:/agb/include/AgbMultiBoot.h C:/agb/include/IsAgbPrint.h
+share.o : share.c C:/agb/include/agb.h C:/agb/include/AgbTypes.h \
+ C:/agb/include/AgbDefine.h C:/agb/include/AgbMemoryMap.h \
+ C:/agb/include/AgbMacro.h C:/agb/include/AgbSystemCall.h \
+ C:/agb/include/AgbSound.h C:/agb/include/AgbMultiBoot.h \
+ C:/agb/include/IsAgbPrint.h share.h
+Debug.o : Debug.c Debug.h BasicTypes.h AgbSystemCall.h \
+ C:/agb/include/AgbTypes.h C:/agb/include/AgbSound.h \
+ C:/agb/include/AgbMultiBoot.h IsAgbPrint.h Graphics.h Macros.h \
+ AgbMemoryMap.h
+alphaset1.o : alphaset1.c C:/agb/include/AgbTypes.h
+mainmenu.o : mainmenu.c C:/agb/include/agbtypes.h
+track.o : track.c C:/agb/include/agbtypes.h
+RawData.o : RawData.c Extern.h C:/agb/include/AGBTypes.h BasicTypes.h \
+ Vector.h Fixed.h macros.h C:/agb/include/AgbTypes.h
+trackdata.o : trackdata.c TrackData.h BasicTypes.h Matrix.h Vector.h \
+ Fixed.h macros.h C:/agb/include/AgbTypes.h BasicDefines.h Extern.h \
+ C:/agb/include/AGBTypes.h AgbMacro.h C:/agb/include/AgbSystemCall.h \
+ C:/agb/include/AgbSound.h C:/agb/include/AgbMultiBoot.h \
+ C:/agb/include/IsAgbPrint.h \
+ C:\Program\ Files\Cygnus\thumbelf-000512\H-i686-cygwin32\bin\/../lib/gcc-lib/thumb-elf/2.9-arm-000512/../../../../thumb-elf/include/malloc.h \
+ C:\Program\ Files\Cygnus\thumbelf-000512\H-i686-cygwin32\bin\/../lib/gcc-lib/thumb-elf/2.9-arm-000512/../../../../thumb-elf/include/_ansi.h \
+ C:\Program\ Files\Cygnus\thumbelf-000512\H-i686-cygwin32\bin\/../lib/gcc-lib/thumb-elf/2.9-arm-000512/../../../../thumb-elf/include/sys/config.h \
+ C:\Program\ Files\Cygnus\thumbelf-000512\H-i686-cygwin32\bin\/../lib/gcc-lib/thumb-elf/2.9-arm-000512/../../../../thumb-elf/include/sys/reent.h \
+ C:\Program\ Files\Cygnus\thumbelf-000512\H-i686-cygwin32\bin\/../lib/gcc-lib/thumb-elf/2.9-arm-000512/../../../../thumb-elf/include/time.h \
+ C:\Program\ Files\Cygnus\thumbelf-000512\H-i686-cygwin32\bin\/../lib/gcc-lib/thumb-elf/2.9-arm-000512/../../../../thumb-elf/include/machine/time.h \
+ C:\Program\ Files\Cygnus\thumbelf-000512\H-i686-cygwin32\bin\/../lib/gcc-lib/thumb-elf/2.9-arm-000512/include/stddef.h \
+ C:\Program\ Files\Cygnus\thumbelf-000512\H-i686-cygwin32\bin\/../lib/gcc-lib/thumb-elf/2.9-arm-000512/../../../../thumb-elf/include/machine/types.h \
+ Agb.h C:/agb/include/AgbDefine.h C:/agb/include/AgbMemoryMap.h \
+ C:/agb/include/AgbMacro.h
+Map.o : Map.c BasicTypes.h

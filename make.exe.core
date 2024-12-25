@@ -1,0 +1,23 @@
+  394   21984 [main] make 1000 exception: trapped!
+77532   99516 [main] make 1000 exception: code 0xC0000005 at 0x407417
+33010  132526 [main] make 1000 exception: ax 0x610661C4 bx 0x0 cx 0x19F0 dx 0x11
+44739  177265 [main] make 1000 exception: si 0xA041618 di 0xA041381 bp 0x24AF3C8 sp 0x24AF3AC
+32989  210254 [main] make 1000 exception: exception is: STATUS_ACCESS_VIOLATION
+33678  243932 [main] make 1000 stack: Stack trace:
+32994  276926 [main] make 1000 stack: frame 0: sp = 0x24AEFD4, pc = 0x6100AE23
+44774  321700 [main] make 1000 stack: frame 1: sp = 0x24AF000, pc = 0x77F8E064
+32988  354688 [main] make 1000 stack: frame 2: sp = 0x24AF024, pc = 0x77F8E103
+33683  388371 [main] make 1000 stack: frame 3: sp = 0x24AF0AC, pc = 0x77F9F062
+32981  421352 [main] make 1000 stack: frame 4: sp = 0x24AF3C8, pc = 0x405FA8
+33682  455034 [main] make 1000 stack: frame 5: sp = 0x24AF420, pc = 0x4063DD
+44085  499119 [main] make 1000 stack: frame 6: sp = 0x24AF430, pc = 0x406692
+33688  532807 [main] make 1000 stack: frame 7: sp = 0x24AF470, pc = 0x405214
+32982  565789 [main] make 1000 stack: frame 8: sp = 0x24AF490, pc = 0x40FB91
+33681  599470 [main] make 1000 stack: frame 9: sp = 0x24AF4A0, pc = 0x40F4C1
+44086  643556 [main] make 1000 stack: frame 10: sp = 0x24AF4E8, pc = 0x40E597
+33720  677276 [main] make 1000 stack: frame 11: sp = 0x24AF504, pc = 0x40F743
+77734  755010 [main] make 1000 stack: frame 12: sp = 0x24AF530, pc = 0x40EF38
+44092  799102 [main] make 1000 stack: frame 13: sp = 0x24AF584, pc = 0x40E597
+33691  832793 [main] make 1000 stack: frame 14: sp = 0x24AF5A0, pc = 0x40E20C
+32981  865774 [main] make 1000 stack: frame 15: sp = 0x24AF5DC, pc = 0x403087
+33681  899455 [main] make 1000 stack: End of stack trace (more stack frames may be present)

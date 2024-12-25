@@ -1,0 +1,2 @@
+start.o:	start.s nintendo_header.s  C:\agb\include\AgbDefine.s \
+ C:\agb\include\AgbMacro.s C:\agb\include\AgbMemoryMap.s interrupts.h
